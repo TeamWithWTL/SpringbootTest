@@ -15,14 +15,13 @@ public class UserService implements IUserService{
 	private UserMapper userMapper;
 	
 	public User getUserByUsername(String username) {
-		System.out.println("userService.getUserByUsername");
-		User user = userMapper.getUserByUsername(username);
+		User user = userMapper.getOneMessage("user", "username", username);
 		return user;
 	}
 
 	@Override
 	public List<User> getUser() {
-		List<User> users = userMapper.getUser();
+		List<User> users = userMapper.getAllMessage("user");
 		return users;
 	}
 

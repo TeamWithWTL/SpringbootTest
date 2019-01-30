@@ -17,4 +17,5 @@ public interface IUserService {
 	 * @return
 	 */
 	List<User> getUser();
+	
 }
