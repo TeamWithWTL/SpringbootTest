@@ -1,9 +1,12 @@
 package com.springboot.controller;
 
+import java.io.Console;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,8 +23,9 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 
-	@RequestMapping(value = "getUserByUsername")
-	public ResponseResult<User> getUserByUsername(String username) {
+	@RequestMapping("/getUserByUsername")
+	public ResponseResult<User> getUserByUsername(@RequestBody User user1) {
+		String username = user1.getUsername();
 		User user = userService.getUserByUsername(username);
 		ResponseResult<User> rr = new ResponseResult<User>();
 		rr.setData(user);
