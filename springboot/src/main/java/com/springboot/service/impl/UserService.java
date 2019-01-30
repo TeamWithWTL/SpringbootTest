@@ -1,5 +1,7 @@
 package com.springboot.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,12 @@ public class UserService implements IUserService{
 		System.out.println("userService.getUserByUsername");
 		User user = userMapper.getUserByUsername(username);
 		return user;
+	}
+
+	@Override
+	public List<User> getUser() {
+		List<User> users = userMapper.getUser();
+		return users;
 	}
 
 	

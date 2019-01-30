@@ -1,5 +1,7 @@
 package com.springboot.mapper;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
@@ -14,4 +16,10 @@ public interface UserMapper {
 	@Select("select username,password from user where username = #{username}")
 	User getUserByUsername(String username);
 	
+	/**
+	 * 查询所有的用户信息
+	 * @return
+	 */
+	@Select("select * from user")
+	List<User> getUser();
 }

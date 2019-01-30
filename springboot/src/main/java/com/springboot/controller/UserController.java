@@ -1,5 +1,7 @@
 package com.springboot.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +25,14 @@ public class UserController {
 		User user = userService.getUserByUsername(username);
 		ResponseResult<User> rr = new ResponseResult<User>();
 		rr.setData(user);
+		return rr;
+	}
+	
+	@RequestMapping("/getUser")
+	public ResponseResult<List<User>> getUser(){
+		List<User> users = userService.getUser();
+		ResponseResult<List<User>> rr = new ResponseResult<List<User>>();
+		rr.setData(users);
 		return rr;
 	}
 }
