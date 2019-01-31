@@ -25,5 +25,10 @@ public class UserService implements IUserService{
 		return users;
 	}
 
+	@Override
+	public void addUser(User user) {
+		userMapper.addOneMessage("user", User.class, user);
+	}
+
 	
 }

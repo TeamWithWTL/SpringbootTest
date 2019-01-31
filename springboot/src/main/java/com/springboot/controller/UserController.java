@@ -36,4 +36,12 @@ public class UserController {
 		rr.setData(users);
 		return rr;
 	}
+	
+	@RequestMapping("/add")
+	public ResponseResult<Void> addUser(@RequestBody User user){
+		System.out.println(user);
+		userService.addUser(user);
+		ResponseResult<Void> rr = new ResponseResult<Void>();
+		return rr;
+	}
 }

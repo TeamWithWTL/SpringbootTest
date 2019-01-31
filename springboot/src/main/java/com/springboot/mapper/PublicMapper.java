@@ -32,4 +32,13 @@ public interface PublicMapper<T> {
 	 */
 	@SelectProvider(type=ProviderSQL.class, method="getOneMes")
 	T getOneMessage(String table, String name, @Param(value="value")String value);
+	
+	/**
+	 * 添加一行数据
+	 * @param table 表名
+	 * @param cls	实体类
+	 * @param obj	存储对象
+	 */
+	@SelectProvider(type=ProviderSQL.class, method="addOneMes")
+	void addOneMessage(String table, Class cls, Object obj);
 }
