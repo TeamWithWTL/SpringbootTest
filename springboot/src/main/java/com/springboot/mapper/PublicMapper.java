@@ -3,6 +3,7 @@ package com.springboot.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.SelectProvider;
 
 /**
@@ -30,5 +31,5 @@ public interface PublicMapper<T> {
 	 * @return
 	 */
 	@SelectProvider(type=ProviderSQL.class, method="getOneMes")
-	T getOneMessage(String table, String name, String value);
+	T getOneMessage(String table, String name, @Param(value="value")String value);
 }
