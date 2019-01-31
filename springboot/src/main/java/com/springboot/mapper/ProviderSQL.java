@@ -9,7 +9,7 @@ public class ProviderSQL {
 	
 	/**
 	 * 动态查询某表的全部数据
-	 * @param table
+	 * @param table 表名
 	 * @return
 	 */
 	public String getAllMes(String table) {
@@ -18,7 +18,7 @@ public class ProviderSQL {
 	
 	/**
 	 * 动态查询一条指定参数的数据
-	 * @param table 表明
+	 * @param table 表名
 	 * @param name 字段名
 	 * @param value 值
 	 * @return

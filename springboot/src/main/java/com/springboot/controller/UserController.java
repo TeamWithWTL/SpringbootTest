@@ -21,7 +21,7 @@ public class UserController {
 	private UserService userService;
 
 	@RequestMapping("/getUserByUsername")
-	public ResponseResult<User> getUserByUsername(@RequestBody User user1) {
+	public ResponseResult<User> getUserByUsername(@RequestBody User user1) { //@RequestBody 用来接收接收json，会自动转换成对象，前端一定要传对应的格式
 		String username = user1.getUsername();
 		User user = userService.getUserByUsername(username);
 		ResponseResult<User> rr = new ResponseResult<User>();

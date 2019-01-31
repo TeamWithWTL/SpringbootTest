@@ -16,6 +16,7 @@ public interface PublicMapper<T> {
 	
 	/**
 	 *  获取所有查询信息
+	 *  @param table 表名
 	 *  @return
 	 */
 	@SelectProvider(type=ProviderSQL.class, method="getAllMes")
@@ -23,7 +24,7 @@ public interface PublicMapper<T> {
 	
 	/**
 	 * 获取单个数据
-	 * @param table 表明
+	 * @param table 表名
 	 * @param name 字段名
 	 * @param value 值
 	 * @return
