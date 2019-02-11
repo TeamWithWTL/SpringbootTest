@@ -19,12 +19,18 @@ public class UrlConfig {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-            	/*
-            	 * allowedOrigins()里面写需要跨域的地址和端口号 
-            	 * allowedMethods支持的http请求 
-            	 * allowCredentials这个要设置成true才能实现跨域
-            	 */
-                registry.addMapping("/**").allowedOrigins("http://127.0.0.1:8010").allowedMethods("*").allowCredentials(true);
+                registry
+                .addMapping("/**")
+                //allowedOrigins()里面写需要跨域的地址和端口号 
+                .allowedOrigins("http://127.0.0.1:8010")
+                //allowedMethods支持的http请求
+                .allowedMethods("*")
+                //allowCredentials这个要设置成true才能实现跨域
+                .allowCredentials(true)
+                //放行哪些原始域(头部信息)
+                .allowedHeaders("*")
+                //暴露哪些头部信息（因为跨域访问默认不能获取全部头部信息）
+                .exposedHeaders("token");
             }
         };
     }
