@@ -28,7 +28,7 @@ public interface PublicMapper<T> {
 	List<T> getAllMessage(String table, String ...columns);
 	
 	/**
-	 * 	获取单个数据
+	 * 	获取单条件数据
 	 * 	@param table 表名
 	 * 	@param name 字段名
 	 * 	@param value 值
@@ -37,6 +37,18 @@ public interface PublicMapper<T> {
 	 */
 	@SelectProvider(type=ProviderSQL.class, method="getOneMes")
 	T getOneMessage(String table, String name, @Param(value="value")String value, String ... columns);
+	
+	/**
+	 * 获取动态条件数据
+	 * @param table	表名
+	 * @param t	存储条件的对象
+	 * @param keyStrings	字段数组
+	 * @param valueStrings	（nameMap.字段名）数组 防sql注入的注入参数方式
+	 * @param columns	要查询的显示的字段名数组
+	 * @return	返回list集合
+	 */
+	@SelectProvider(type=ProviderSQL.class, method="getListMes")
+	List<T> getListMessage(String table, @Param(value="nameMap") T t, String[] keyStrings, String[] valueStrings, String ... columns);
 	
 	/**
 	 * 	添加一行数据

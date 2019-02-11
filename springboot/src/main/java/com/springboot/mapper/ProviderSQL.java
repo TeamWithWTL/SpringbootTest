@@ -32,7 +32,7 @@ public class ProviderSQL<T> {
 	}
 
 	/**
-	 * 动态查询
+	 * 单一条件动态查询
 	 * 
 	 * @param table   表名
 	 * @param name    字段名
@@ -54,6 +54,31 @@ public class ProviderSQL<T> {
 		}.toString();
 	}
 
+	/**
+	 * 动态参数参数查询指定字段
+	 * @param table	表名
+	 * @param t	存储条件的对象
+	 * @param keyStrings	字段数组
+	 * @param valueStrings	（nameMap.字段名）数组 防sql注入的注入参数方式
+	 * @param columns	要查询的显示的字段名数组
+	 * @return
+	 */
+	public String getListMes(String table, @Param(value = "nameMap") T t, String[] keyStrings, String[] valueStrings, String ...columns ) {
+		return new SQL() {
+			{
+				if (columns.length != 0) {
+					SELECT(columns);
+				} else {
+					SELECT("*");
+				}
+				FROM(table);
+				for (int i = 0; i < keyStrings.length; i++) {
+					WHERE(keyStrings[i] + "="+valueStrings[i]);
+				}
+			}
+		}.toString();
+	}
+	
 	/**
 	 * 动态添加一个条数据
 	 * 
