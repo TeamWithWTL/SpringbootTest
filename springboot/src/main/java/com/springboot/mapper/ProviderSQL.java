@@ -32,7 +32,7 @@ public class ProviderSQL<T> {
 	}
 
 	/**
-	 * 动态单一条件查询
+	 * 动态查询
 	 * 
 	 * @param table   表名
 	 * @param name    字段名
