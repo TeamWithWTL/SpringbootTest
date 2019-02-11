@@ -1,20 +1,7 @@
 package com.springboot.mapper;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import javax.annotation.Resource;
-
-import java.util.Set;
-
-import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.jdbc.SQL;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 /**
  * 书写动态sql专用
@@ -22,37 +9,45 @@ import org.springframework.stereotype.Component;
  * @author Roger
  *
  */
-public class ProviderSQL {
+public class ProviderSQL<T> {
 
 	/**
-	 * 动态查询某表的全部数据
+	 * 动态无条件查询数据，可以指定要查询的字段名，以数组来进行传递，或者传递单个的字符串
 	 * 
-	 * @param table 表名
-	 * @return
+	 * @param table   表名
+	 * @param columns 字段名
+	 * @return 返回查询的sql语句
 	 */
-	public String getAllMes(String table) {
-		// return "select * from " + table;
+	public String getAllMes(String table, String... columns) {
 		return new SQL() {
 			{
-				SELECT(" * ");
+				if (columns.length != 0) {
+					SELECT(columns);
+				} else {
+					SELECT("*");
+				}
 				FROM(table);
 			}
 		}.toString();
 	}
 
 	/**
-	 * 动态查询一条指定参数的数据
+	 * 动态单一条件查询
 	 * 
-	 * @param table 表名
-	 * @param name  字段名
-	 * @param value 值
-	 * @return
+	 * @param table   表名
+	 * @param name    字段名
+	 * @param value   值
+	 * @param columns 字段名
+	 * @return 返回查询sql
 	 */
-	public String getOneMes(String table, String name, @Param(value = "value") String value) {
-		// return "select * from " + table + " where " + name + "='" + value + "'";
+	public String getOneMes(String table, String name, @Param(value = "value") String value, String... columns) {
 		return new SQL() {
 			{
-				SELECT("*");
+				if (columns.length != 0) {
+					SELECT(columns);
+				} else {
+					SELECT("*");
+				}
 				FROM(table);
 				WHERE(name + "=#{value}");
 			}
@@ -60,51 +55,60 @@ public class ProviderSQL {
 	}
 
 	/**
-	 * 动态添加一条数据
-	 * @param table	表名
-	 * @param cls	实体类
-	 * @param obj	存储对象
+	 * 动态添加一个条数据
+	 * 
+	 * @param table        表名
+	 * @param t            存储对象
+	 * @param keyStrings   字段数组
+	 * @param valueStrings （nameMap.字段名）数组 防sql注入的注入参数方式
 	 * @return
-	 * @throws Exception
 	 */
-	public String addOneMes(String table, Class cls, Object obj) {
-		try {
-			Set<Entry<String, Object>> set = values(obj, cls);
-			return new SQL() {
-				{
-					INSERT_INTO(table);
-					for (Entry<String, Object> entry : set) {
-						String key = entry.getKey();
-						String value = "'"+entry.getValue()+"'";
-						VALUES(key, value);
-					}
+	public String addOneMes(String table, @Param(value = "nameMap") T t, String[] keyStrings, String[] valueStrings) {
+		return new SQL() {
+			{
+				INSERT_INTO(table);
+				for (int i = 0; i < keyStrings.length; i++) {
+					VALUES(keyStrings[i], valueStrings[i]);
 				}
-			}.toString();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
+			}
+		}.toString();
 	}
-	
+
 	/**
-	 * 获取属性与值的map
-	 * @param obj	需要存入的对象
-	 * @param cls	对象对应的实体类
-	 * @return
-	 * @throws Exception
+	 * 	通过id动态修改一条数据
+	 * @param table	表名
+	 * @param t	存储的对象
+	 * @param keyStrings	字段名
+	 * @param valueStrings	“nameMap.字段名”数组
+	 * @return 
 	 */
-	public static Set<Entry<String, Object>> values(Object obj, Class cls) throws Exception {
-		Field[] fields = cls.getDeclaredFields();
-		Set<Entry<String, Object>> set = null;
-		for (Field field : fields) {
-			Map<String, Object> values = new HashMap<String, Object>();
-			String name = field.getName();
-			String getName = "get" + name.substring(0, 1).toUpperCase() + name.substring(1);
-			Method method = cls.getMethod(getName);
-			Object object = method.invoke(obj);
-			values.put(name, object);
-			set = values.entrySet();
-		}
-		return set;
+	public String updateOneMes(String table, @Param(value = "nameMap") T t, String[] keyStrings, String[] valueStrings) {
+		System.out.println(t);
+		return new SQL() {
+			{
+				UPDATE(table);
+				for (int i = 1; i < keyStrings.length; i++) {
+					SET(keyStrings[i]+"="+valueStrings[i]);
+					}
+				WHERE("id="+valueStrings[0]);
+			}
+		}.toString();
 	}
+
+	/**
+	 * 通过id删除某条数据
+	 * 
+	 * @param table 表名
+	 * @param id    id
+	 * @return 返回sql语句
+	 */
+	public String deleteOneMes(String table,@Param(value="id") Integer id) {
+		return new SQL() {
+			{
+				DELETE_FROM(table);
+				WHERE("id=#{id}");
+			}
+		}.toString();
+	}
+
 }

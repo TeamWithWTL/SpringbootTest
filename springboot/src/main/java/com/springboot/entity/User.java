@@ -1,10 +1,26 @@
 package com.springboot.entity;
 
-public class User {
+public class User extends PublicEntity{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2825947916953370797L;
+	// id
+	private Integer id;
+	// 用户名
 	private String username;
+	// 密码
 	private String password;
 	
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
 	public String getUsername() {
 		return username;
 	}
@@ -20,10 +36,10 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
+
 	@Override
 	public String toString() {
-		return "User [username=" + username + ", password=" + password + "]";
+		return "User [id=" + id + ", username=" + username + ", password=" + password + "]";
 	}
 	
 }

@@ -39,8 +39,24 @@ public class UserController {
 	
 	@RequestMapping("/add")
 	public ResponseResult<Void> addUser(@RequestBody User user){
-		System.out.println(user);
-		userService.addUser(user);
+		Integer row = userService.addUser(user);
+		System.out.println("rows:"+row);
+		ResponseResult<Void> rr = new ResponseResult<Void>();
+		return rr;
+	}
+	
+	@RequestMapping("/update")
+	public ResponseResult<Void> updateUser(@RequestBody User user){
+		Integer row = userService.updateUser(user);
+		System.out.println("rows:"+row);
+		ResponseResult<Void> rr = new ResponseResult<Void>();
+		return rr;
+	}
+	
+	@RequestMapping("/delete")
+	public ResponseResult<Void> deleteUser(@RequestBody User user){
+		Integer row = userService.deleteUser(user.getId());
+		System.out.println("rows:"+row);
 		ResponseResult<Void> rr = new ResponseResult<Void>();
 		return rr;
 	}
