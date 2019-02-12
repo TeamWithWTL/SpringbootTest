@@ -2,6 +2,8 @@ package com.springboot.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,6 +28,7 @@ public class UserController {
 		User user = userService.getUserByUsername(username);
 		ResponseResult<User> rr = new ResponseResult<User>();
 		rr.setData(user);
+		System.out.println("1");
 		return rr;
 	}
 	
@@ -59,5 +62,14 @@ public class UserController {
 		System.out.println("rows:"+row);
 		ResponseResult<Void> rr = new ResponseResult<Void>();
 		return rr;
+	}
+	
+	@RequestMapping("/login")
+	public ResponseResult<Void> login(@RequestBody User user,HttpSession session){
+		System.out.println("login.Controller");
+		User user1 = userService.login(user.getUsername(), user.getPassword());
+		session.setAttribute("id", user1.getId());
+		session.setAttribute("username", user1.getUsername());
+		return new ResponseResult<Void>();
 	}
 }

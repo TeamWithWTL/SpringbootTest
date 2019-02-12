@@ -38,4 +38,12 @@ public interface IUserService {
 	 * @return	成功返回1，失败返回0
 	 */
 	Integer deleteUser(Integer id);
+	
+	/**
+	 * 用户登陆
+	 * @param username 用户输入的用户名
+	 * @param password 密码
+	 * @return	
+	 */
+	User login(String username,String password);
 }

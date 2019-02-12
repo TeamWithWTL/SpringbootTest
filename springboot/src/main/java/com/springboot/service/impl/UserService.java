@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import com.springboot.entity.User;
 import com.springboot.mapper.UserMapper;
 import com.springboot.service.IUserService;
+import com.springboot.service.ex.NullPointException;
+import com.springboot.service.ex.PasswordErrorException;
 import com.springboot.util.PublicUtil;
 
 @Service("userService")
@@ -57,6 +59,27 @@ public class UserService implements IUserService{
 	@Override
 	public Integer deleteUser(Integer id) {
 		return userMapper.deleteOneMessage("user", id);
+	}
+
+	@Override
+	public User login(String username, String password) throws NullPointException,UsernameErrorException,PasswordErrorException{
+		System.out.println("login.Service");
+		User user = userMapper.getOneMessage("user", "username", username);
+		System.out.println(user);
+		if(user == null) {
+			throw new NullPointException("用户不存在");
+		}else {
+			if(user.getUsername().equals(username)) {
+				if(user.getPassword().equals(password)) {
+					return user;
+				}else {
+					throw new PasswordErrorException("密码错误");
+				}
+			}else {
+				System.out.println(user.getUsername());
+				throw new UsernameErrorException("用户名错误");
+			}
+		}
 	}
 
 
