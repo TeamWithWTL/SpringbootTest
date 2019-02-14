@@ -1,6 +1,4 @@
-package com.springboot.service.impl;
-
-import com.springboot.service.ex.ServiceException;
+package com.springboot.service.ex;
 
 public class UsernameErrorException extends ServiceException {
 

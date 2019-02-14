@@ -10,17 +10,18 @@ import com.springboot.mapper.UserMapper;
 import com.springboot.service.IUserService;
 import com.springboot.service.ex.NullPointException;
 import com.springboot.service.ex.PasswordErrorException;
+import com.springboot.service.ex.UsernameErrorException;
 import com.springboot.util.PublicUtil;
 
 @Service("userService")
 public class UserService implements IUserService{
-	
+
 	@Autowired
 	private UserMapper userMapper;
-	
+
 	@Autowired 
 	private PublicUtil<User> publicUtil;
-	
+
 	public User getUserByUsername(String username) {
 		User user = userMapper.getOneMessage("user", "username", username);
 		return user;
@@ -62,22 +63,21 @@ public class UserService implements IUserService{
 	}
 
 	@Override
-	public User login(String username, String password) throws NullPointException,UsernameErrorException,PasswordErrorException{
+	public User login(String username, String password) throws UsernameErrorException,PasswordErrorException{
 		System.out.println("login.Service");
+		System.out.println("username:" + username);
 		User user = userMapper.getOneMessage("user", "username", username);
-		System.out.println(user);
+		System.out.println("user:" + user);
 		if(user == null) {
-			throw new NullPointException("用户不存在");
+			System.out.println(1);
+			throw new UsernameErrorException("用户名错误/不存在");
 		}else {
-			if(user.getUsername().equals(username)) {
-				if(user.getPassword().equals(password)) {
-					return user;
-				}else {
-					throw new PasswordErrorException("密码错误");
-				}
+			if(user.getPassword().equals(password)) {
+				System.out.println(3);
+				return user;
 			}else {
-				System.out.println(user.getUsername());
-				throw new UsernameErrorException("用户名错误");
+				System.out.println(4);
+				throw new PasswordErrorException("密码错误");
 			}
 		}
 	}

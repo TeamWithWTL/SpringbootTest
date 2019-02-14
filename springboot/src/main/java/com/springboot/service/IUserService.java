@@ -3,6 +3,9 @@ package com.springboot.service;
 import java.util.List;
 
 import com.springboot.entity.User;
+import com.springboot.service.ex.NullPointException;
+import com.springboot.service.ex.PasswordErrorException;
+import com.springboot.service.ex.UsernameErrorException;
 
 public interface IUserService {
 	/**
@@ -45,5 +48,6 @@ public interface IUserService {
 	 * @param password 密码
 	 * @return	
 	 */
-	User login(String username,String password);
+	User login(String username,String password) throws NullPointException,UsernameErrorException,PasswordErrorException;
+
 }
